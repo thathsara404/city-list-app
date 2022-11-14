@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  city-list:
+    container_name: ${CITY_LIST_API_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: DockerFileLocal
+    depends_on:
+      - postgresqlcitylistdb
+    restart: unless-stopped
+    env_file: ./.env.local
+    ports:
+      - ${CITY_LIST_API_LOCAL_PORT}:${CITY_LIST_API_DOCKER_PORT}
+    image: city-list-app-network
+    stdin_open: true
+    tty: true # allocate virtual terminal session within the container
+    networks:
+      - city-list-app-network
+
+  postgresqlcitylistdb:
+    image: postgres:14.4
+    restart: unless-stopped
+    env_file: ./.env.local
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    ports:
+      - ${POSTGRES_LOCAL_PORT}:${POSTGRES_DOCKER_PORT}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PWD}
+      POSTGRES_USER: ${POSTGRES_UN}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      PGDATA: /data/postgres
+    volumes:
+      - /data:/var/lib/postgresql/data
+    networks:
+      - city-list-app-network
+
+networks:
+  city-list-app-network:
+    driver: bridge

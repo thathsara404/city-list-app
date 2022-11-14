@@ -1,0 +1,62 @@
+/**
+* Install REST Client VSCode extension
+* To execute the bellow => cntrl + shift + p
+* Search for rest and select the run command 
+*/
+
+----- REST API DOC -----
+
+GET http://localhost:8081/rest-api-docs
+
+In the browser try, http://localhost:8081/swagger-ui
+
+----- Register User -----
+
+POST http://localhost:8081/users
+content-type: application/json 
+
+{
+    "username": "admin1",
+    "password": "admin1",
+    "firstName": "Admin1",
+    "lastName": "Admin1",
+    "email": "bb@g.com",
+    "tele": "0772135521",
+    "userRole": "ADMIN"
+}
+
+
+----- Login User -----
+
+POST http://localhost:8081/users/login
+content-type: application/json 
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+----- Check health -----
+
+GET http://localhost:8081/healthCheck/health
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJleGFtcGxlLmlvIiwic3ViIjoiMzcsYWRtaW4iLCJleHAiOjE2Njg0MDI5MTUsImlhdCI6MTY2ODM2NjkxNSwicm9sZXMiOiIifQ.Wu8y0DXsIiY65Sf-EjlEVEbZqOPOSBf1xJtUa9vmw174IXmINv5uKrke7zE54z2x3BS8Z5MvOE-dDGoV-S-hXHQU2NIsJZRFftuuv1OCr5LENG3fHwt_yTZfQ_CfqyvyFqsyF0abEbVgHHzNoUD_1mP45QKjU4_OIQ5iZf1H7be8p1EPvIYMV5nn-OcRfv_tZ4CCFR8jX6_kRpFylzNv3Ky1urDx_MixxnwXDiv6AcLM9EDybE-2DjvkNiax7PizPaqOBpEpVx_1mFWP333gI27f5wzrbuBVPDzTEy7wDMmkzP5pLvKi3IWK4pgg8YJxbxphQMGZqXW6gUoptRog-aWV8j_tzgxuhSn7iyxEapC9IKx8ivFjGer2QwBVQs41AdYf4_vjwno5idRpN4-32zN5HHhKYobi-7vcITmP3pLPv1NuQDGqfDE_TEd9uBmkvBXU78jmjJhrnLwWsVhGJGOgBUwBh5DIz9s_oAQG3_IUZjkykwGLpqWfcWfVN7e_LNK2nhcf3lf15v9SZAscR8I34ecimyGv6U_5Te6NXih38AxTwTXakP2l9rRsxILYtOMkexp1eIFT18uzXmsdeTXKkXZrbjNI5nMLruFJfu-r1ynkptoVd7aB4Tu9OWRsDjJ5IGfdMEurc6MSwApNy9uZl7Po1AFxiQYK5TsiJYM
+
+
+----- Add city by admin -----
+
+POST http://localhost:8081/cities
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJjaXR5LWxpc3QtYXBwIiwic3ViIjoiNixhZG1pbiIsImV4cCI6MTY2ODQ3NDg2MSwiaWF0IjoxNjY4NDM4ODYxLCJyb2xlcyI6ImFkbWluIn0.S_ieqeZTG2RKCwqaFzMGlw9zW7k23I1_-PJ_L3rnbzi35QWWljTjrAnZAziWQYO_09lpWsHBsmBeRy_N3_PEyeOYo-OfRJPN9DlRgocnn760rK8SM-yCaHk9A7wQq5JlfxXnymEMee-9q8kP50nUi81VkOnPfGi1iTnYOcqRwuoQAtJGwOkRd4qYvRRLpZ7ulNeGLUseFJEScsMlndddmHnQAFdjYHtMrbje9bjr12RG-78cqWYi4kGw7JuxUqZuZRJlqT3dq8_V6tgJMGRpOzE8JSVcYEY9Rh_6ijpfZS_xfa4kHbcKlmALS-Cozw7BKMTK53_cpRl8bM-bT75zSB9ExRfvPxttfnLUaf3wmxUV2aMffJbWU01TWqhMvCi9hUm5EhzfqZAtwJ5Isd-WEGGvOUoLr9C7nQjs-NCHtpfPvuWQvYPOVfJ-mHSjw0PBVldIhTYpBKsMEtw3C-8TH8HRQk5W2QMasY8LsVv3Mzwk-furBjptkZxzmEyrykiQJxt0iZOY73goWHWEU26ibsE7U_EYR7uUNAjkH4GyQihxcMH3F5Mxvsfc6v4nnnuBIuQYKuRAQJvNkMMJg2obQRu_XMVJpFiWaxF5MsjXHSdvOwrFWbIISe0GUl953-3AWm-oiolYCQGL0UvRQCeYSlnMcTo8T8G48mQjyLJ2n5g
+
+{
+    "name": "Test4",
+    "photoURL": "testURL4"
+}
+
+
+----- Read cities -------
+
+GET http://localhost:8081/cities?pageNumber=0&pageSize=10&cityName=Test1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJjaXR5LWxpc3QtYXBwIiwic3ViIjoiMSx1c2VyIiwiZXhwIjoxNjY4NDc1OTQwLCJpYXQiOjE2Njg0Mzk5NDAsInJvbGVzIjoidXNlciJ9.PfjguIKreXyzX1PTw4P6Y0x7l1kTow3HW--nQp7N-SQ0rR83808bUiUTQZi67waq-qpBIVxxTJtTe0CNEW1duHNx8eo6zxzEBBnLrj6SfVR1-qtQf0h-dbbWp_DPi5bcKHqXXxs9QYZIWH6QMN40Na2X2g5vIK-_Q6gYuWs6BiQp3ibpQbaFPDwdLB4MM6jGbltbd-LpLQBRTy6rXHHdEenJxDB4N3bSdhO4--4FYuN9yl1dRlLbTu9FyW6turnGyxaDlzV4jXDlaN0rWBEtEccOh655XSptMl0vvJGd4KVxgQ36_CFn8k5I2x2EVegl3PRk9mNfZCsIgmF3IVjxTcOHKBknicizkkJu1M7fNHHz5sXGJXFaK_W8r8yIdpegGwdYvLG08h29B464v5x_CFFkFhKwTCQcwlw3FcMx5uk0seK0XE6ZrJT53CLT1aOWyVua3AQN4qAz2epxAoXdFc5ZxuY17M2ZOepwkcKIBkCqhq_a5L9JgtVfdxe-m3UlSvN4YpA-q7J63EjfCMHpQC1KlKk5_f4cYh3XqLIwzKshAW5pQi9Pzm-uayLx0tmlbjfdzeYnyW5ujQ9DhST9egPaJgahFSxLsDowRmgDbaiPT482vPzeO-gMsNFSGW34XChttDzitomt5dSEguxQg8jYbe7SQE_YxhNUV4y1_Hk
