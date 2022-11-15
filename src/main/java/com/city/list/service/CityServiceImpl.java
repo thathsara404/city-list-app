@@ -2,7 +2,9 @@ package com.city.list.service;
 
 import com.city.list.consts.ErrorConst;
 import com.city.list.dto.CityDTO;
+import com.city.list.dto.CityDTOPatch;
 import com.city.list.entity.schema.City;
+import com.city.list.exception.BadRequestException;
 import com.city.list.repository.specification.ICityRepository;
 import com.city.list.exception.UnExpectedErrorOccurredException;
 import com.city.list.service.specification.ICityService;
@@ -13,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,40 +78,38 @@ public class CityServiceImpl implements ICityService {
     }
 
     /**
-     * Update city name by id
-     * @param name String
+     * Patch city by id
+     * @param patchData CityDTOPatch
      * @param id Long
-     * @return Integer
      * */
     @Override
-    public Integer updateCityNameById(String name, Long id) {
+    public void patchCityById(CityDTOPatch patchData, Long id) {
         try {
-            Integer result = repository.updateCityNameById(name, id);
-            return result;
+            String name = patchData.getName();
+            String url = patchData.getPhotoURL();
+            System.out.println("----------->>>>"+ url + " " + name);
+            City city = repository.getById(id).get();
+            System.out.println("-->>>>" + city);
+            if (patchData != null && name != null) {
+                city.setCityName(name);
+                repository.save(city);
+            } else if (patchData != null && url != null) {
+                city.setPhotoURL(url);
+                repository.save(city);
+            } else if ((patchData != null && name != null) && (patchData != null && url != null)) {
+                city.setCityName(name);
+                city.setPhotoURL(url);
+                repository.save(city);
+            } else {
+                throw new BadRequestException(ErrorConst.BAD_REQUEST_ERROR_MESSAGE, null);
+            }
         } catch (DataIntegrityViolationException exception) {
+            throw exception;
+        } catch(BadRequestException exception) {
             throw exception;
         } catch (Exception exception) {
             throw new UnExpectedErrorOccurredException(ErrorConst.UNEXPECTED_ERROR_OCCURRED_MESSAGE,
                 exception.getCause());
-        }
-    }
-
-    /**
-     * Update city photo url by id
-     * @param url String
-     * @param id Long
-     * @return Integer
-     * */
-    @Override
-    public Integer updateCityPhotoUrlById(String url, Long id) {
-        try {
-            Integer result = repository.updateCityImageById(url, id);
-            return result;
-        } catch (DataIntegrityViolationException exception) {
-            throw exception;
-        } catch (Exception exception) {
-            throw new UnExpectedErrorOccurredException(ErrorConst.UNEXPECTED_ERROR_OCCURRED_MESSAGE,
-                    exception.getCause());
         }
     }
 

@@ -18,16 +18,7 @@ public interface ICityRepository extends PagingAndSortingRepository<City, Long> 
     // Find cities by city name
     public abstract List<City> findAllByCityName(String cityName, Pageable pageable);
 
-    // Update city name by id
-    @Query("UPDATE cities c SET c.city_name = ?1 WHERE (c.id=?2)")
-    public abstract int updateCityNameById(String name, Long cityId);
-
-
-    // Update photo url by id
-    @Query("UPDATE cities c SET c.photourl = ?1 WHERE (c.id=?2)")
-    public abstract int updateCityImageById(String name, Long cityId);
-
     // Get city by id
-    public abstract Optional<City> findById(Long id);
+    public abstract Optional<City> getById(Long id);
 
 }

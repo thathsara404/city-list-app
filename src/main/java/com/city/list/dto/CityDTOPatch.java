@@ -10,20 +10,11 @@ import org.springframework.hateoas.RepresentationModel;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CityDTO extends RepresentationModel implements ISuccessResponse{
+public class CityDTOPatch extends RepresentationModel implements ISuccessResponse{
 
-    private Long id;
-
-    @NotNull
     private String name;
 
-    @NotNull
     private String photoURL;
 
-    public CityDTO (City city) {
-        this.setId(city.getId());
-        this.setName(city.getCityName());
-        this.setPhotoURL(city.getPhotoURL());
-    }
 
 }

@@ -104,6 +104,8 @@ public class SecurityConfig {
             .permitAll()
             .antMatchers(HttpMethod.POST, "/cities/**")
             .hasAnyRole(String.valueOf(UserRole.ADMIN))
+            .antMatchers(HttpMethod.PATCH, "/cities/**")
+            .hasAnyRole(String.valueOf(UserRole.ADMIN))
             .antMatchers(HttpMethod.GET, "/cities/**")
             .permitAll()
             .antMatchers(HttpMethod.POST, "/users/**")

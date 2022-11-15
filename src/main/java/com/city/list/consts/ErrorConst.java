@@ -9,6 +9,8 @@ public class ErrorConst {
 
     public final static String UNEXPECTED_ERROR_OCCURRED_MESSAGE = "Unexpected error occurred";
 
+    public final static String BAD_REQUEST_ERROR_MESSAGE = "Bad request";
+
     public final static String UNAUTHORIZED_MESSAGE = "Uer unauthorized";
 
 

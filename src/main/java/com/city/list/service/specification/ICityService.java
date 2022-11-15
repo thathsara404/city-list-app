@@ -1,6 +1,7 @@
 package com.city.list.service.specification;
 
 import com.city.list.dto.CityDTO;
+import com.city.list.dto.CityDTOPatch;
 import com.city.list.enums.CityFilter;
 import org.springframework.data.domain.Pageable;
 
@@ -29,20 +30,11 @@ public interface ICityService {
     public abstract List<CityDTO> findAllCitiesWithSorting(Integer pageNumber, Integer numItems, String cityName);
 
     /**
-     * Update city name by id
-     * @param name String
+     * Patch city by id
+     * @param patchData CityDTOPatch
      * @param id Long
-     * @return Integer
      * */
-    public abstract Integer updateCityNameById(String name, Long id);
-
-    /**
-     * Update city photo url by id
-     * @param url String
-     * @param id Long
-     * @return Integer
-     * */
-    public abstract Integer updateCityPhotoUrlById(String url, Long id);
+    public abstract void patchCityById(CityDTOPatch patchData, Long id);
 
     /**
      * Update city name and photo url by id

@@ -1,6 +1,7 @@
 package com.city.list.controller;
 
 import com.city.list.dto.CityDTO;
+import com.city.list.dto.CityDTOPatch;
 import com.city.list.service.specification.ICityService;
 import com.sun.istack.NotNull;
 import com.city.list.dto.ResponseDTO;
@@ -48,7 +49,7 @@ public class CityController {
         }
 
         ResponseDTO responseDTO = new ResponseDTO(cityList, null);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 
     }
 
@@ -56,6 +57,13 @@ public class CityController {
     public ResponseEntity updateCity (@RequestBody @NotNull CityDTO cityDTO,
                                       @PathVariable @NotNull Long cityId) {
         cityService.updateCityById(cityDTO.getName(), cityDTO.getPhotoURL(), cityId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping(path = "{cityId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity patchCity (@RequestBody @NotNull CityDTOPatch cityDTO,
+                                      @PathVariable @NotNull Long cityId) {
+        cityService.patchCityById(cityDTO, cityId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

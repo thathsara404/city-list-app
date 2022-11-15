@@ -48,4 +48,10 @@ public class GenericErrorHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(responseDTO);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ResponseDTO> generateBadRequestResponse(BadRequestException badRequestException) {
+        ResponseDTO responseDTO = new ResponseDTO(null, new ErrorResponseDTO(ErrorMessage.BAD_REQUEST.toString()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
+    }
+
 }
