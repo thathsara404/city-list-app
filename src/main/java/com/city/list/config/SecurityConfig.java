@@ -37,6 +37,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Collections;
 
 import static java.lang.String.format;
 
@@ -93,24 +94,24 @@ public class SecurityConfig {
     // Set permissions on endpoints
     http.authorizeRequests()
             // Swagger endpoints must be publicly accessible
-            .antMatchers("/")
+            .antMatchers("/") // No Authorization header needed.
             .permitAll()
-            .antMatchers(format("%s/**", restApiDocPath))
+            .antMatchers(format("%s/**", restApiDocPath)) // No Authorization header needed.
             .permitAll()
-            .antMatchers(format("%s/**", swaggerPath))
+            .antMatchers(format("%s/**", swaggerPath)) // No Authorization header needed.
             .permitAll()
             // Other endpoints
-            .antMatchers("/public/**")
+            .antMatchers("/public/**") // No Authorization header needed.
             .permitAll()
-            .antMatchers(HttpMethod.POST, "/cities/**")
+            .antMatchers(HttpMethod.POST, "/cities/**") // Auth Token needed with admin role.
             .hasAnyRole(String.valueOf(UserRole.ADMIN))
-            .antMatchers(HttpMethod.PATCH, "/cities/**")
+            .antMatchers(HttpMethod.PATCH, "/cities/**") // Auth Token needed with admin role.
             .hasAnyRole(String.valueOf(UserRole.ADMIN))
-            .antMatchers(HttpMethod.GET, "/cities/**")
+            .antMatchers(HttpMethod.GET, "/cities/**") // No Authorization header needed.
             .permitAll()
-            .antMatchers(HttpMethod.POST, "/users/**")
+            .antMatchers(HttpMethod.POST, "/users/**") // No Authorization header needed.
             .permitAll()
-            .antMatchers(HttpMethod.GET, "/actuator/health")
+            .antMatchers(HttpMethod.GET, "/actuator/health") // Auth Token needed with admin role.
             .hasAnyRole(String.valueOf(UserRole.ADMIN))
             // Our private endpoints
             .anyRequest()
@@ -161,7 +162,8 @@ public class SecurityConfig {
     var source = new UrlBasedCorsConfigurationSource();
     var config = new CorsConfiguration();
     config.setAllowCredentials(true);
-    config.addAllowedOrigin("*");
+//    config.addAllowedOrigin("*");
+    config.setAllowedOriginPatterns(Collections.singletonList("*"));
     config.addAllowedHeader("*");
     config.addAllowedMethod("*");
     source.registerCorsConfiguration("/**", config);

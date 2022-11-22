@@ -100,6 +100,7 @@ public class UserServiceImpl implements IUserService {
                             .expiresAt(now.plusSeconds(expiry))
                             .subject(format("%s,%s", user.getId(), user.getUsername()))
                             .claim("roles", scope)
+                            .claim("userid", user.getUserId())
                             .build();
             token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
             return token;

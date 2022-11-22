@@ -41,6 +41,7 @@ public class UserController {
 
     }
 
+    @CrossOrigin(origins = "http://localhost:80")
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody @Valid UserAuthRequestDTO request) {
 
