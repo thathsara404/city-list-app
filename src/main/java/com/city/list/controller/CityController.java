@@ -20,9 +20,9 @@ import java.util.List;
  * City specific Endpoints
  * */
 @RestController
-@CrossOrigin
 @RequestMapping("/cities")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:80")
 public class CityController {
 
     private ICityService cityService;
@@ -65,6 +65,14 @@ public class CityController {
                                       @PathVariable @NotNull Long cityId) {
         cityService.patchCityById(cityDTO, cityId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping(path = "{cityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDTO<CityDTO>> getCityById (@PathVariable @NotNull Long cityId) {
+        CityDTO cityDTO = cityService.getCity(cityId);
+        cityDTO.add(linkTo(methodOn(CityController.class).getCityById(cityId)).withSelfRel());
+        ResponseDTO responseDTO = new ResponseDTO(Arrays.asList(cityDTO), null);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
 }

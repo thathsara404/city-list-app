@@ -53,6 +53,27 @@ public class CityServiceImpl implements ICityService {
     }
 
     /**
+     * Get city
+     * @param cityId Long
+     * @return CityDTO
+     * */
+    @Override
+    public CityDTO getCity(Long cityId) {
+        String sortField = "cityName";
+        CityDTO cityDTO = null;
+        try {
+            City city = repository.getById(cityId).get();
+            cityDTO = new CityDTO(city);
+            return cityDTO;
+        } catch (DataIntegrityViolationException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new UnExpectedErrorOccurredException(ErrorConst.UNEXPECTED_ERROR_OCCURRED_MESSAGE,
+                    exception.getCause());
+        }
+    }
+
+    /**
      * Get all cities with pagination & sort
      * @param pageNumber Integer
      * @param numItems Integer

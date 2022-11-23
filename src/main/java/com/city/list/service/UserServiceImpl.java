@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
@@ -85,7 +86,6 @@ public class UserServiceImpl implements IUserService {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword()));
             User user = (User) authentication.getPrincipal();
-
             Instant now = Instant.now();
             Long expiry = 36000L;
 
@@ -100,12 +100,32 @@ public class UserServiceImpl implements IUserService {
                             .expiresAt(now.plusSeconds(expiry))
                             .subject(format("%s,%s", user.getId(), user.getUsername()))
                             .claim("roles", scope)
-                            .claim("userid", user.getUserId())
+                            .claim("userid", user.getUserId().toString())
                             .build();
             token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
             return token;
         } catch (Exception exception) {
             throw new UnAuthorizedException(ErrorConst.UNAUTHORIZED_MESSAGE, exception.getCause());
+        }
+    }
+
+    /**
+     * Get user
+     * @param userId UUID
+     * @return String
+     * */
+    @Override
+    public UserDTO getUser(UUID userId) {
+        UserDTO userDTO = null;
+        try {
+            User user = userRepository.getByUserId(userId);
+            userDTO = new UserDTO(user);
+            return userDTO;
+        } catch (DataIntegrityViolationException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new UnExpectedErrorOccurredException(ErrorConst.UNEXPECTED_ERROR_OCCURRED_MESSAGE,
+                    exception.getCause());
         }
     }
 

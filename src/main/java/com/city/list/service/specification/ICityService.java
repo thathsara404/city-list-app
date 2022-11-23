@@ -21,6 +21,13 @@ public interface ICityService {
     public abstract CityDTO addNewCity(CityDTO city);
 
     /**
+     * get city
+     * @param cityId Long
+     * @return CityDTO
+     * */
+    public abstract CityDTO getCity(Long cityId);
+
+    /**
      * Get all cities with pagination
      * @param pageNumber Integer
      * @param numItems Integer

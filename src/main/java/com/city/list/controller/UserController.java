@@ -1,5 +1,6 @@
 package com.city.list.controller;
 
+import com.city.list.dto.CityDTO;
 import com.city.list.dto.ResponseDTO;
 import com.city.list.dto.UserAuthRequestDTO;
 import com.city.list.dto.UserDTO;
@@ -13,8 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -22,10 +22,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 /**
  * User specific Endpoints
  * */
-@CrossOrigin
+
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:80")
 public class UserController {
 
     private IUserService userService;
@@ -41,7 +42,6 @@ public class UserController {
 
     }
 
-    @CrossOrigin(origins = "http://localhost:80")
     @PostMapping(path = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody @Valid UserAuthRequestDTO request) {
 
@@ -51,7 +51,15 @@ public class UserController {
 
     }
 
+    @GetMapping(path = "{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDTO<UserDTO>> getUserById (@PathVariable @NotNull UUID userId) {
 
+        UserDTO userDTO = userService.getUser(userId);
+        userDTO.add(linkTo(methodOn(UserController.class).getUserById(userId)).withSelfRel());
+        List<UserDTO> user = new ArrayList(Arrays.asList(userDTO));
+        ResponseDTO responseDTO = new ResponseDTO(user, null);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 
+    }
 
 }
